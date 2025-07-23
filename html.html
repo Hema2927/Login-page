@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login & Registration Form</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Login Form -->
+    <div class="form-box active" id="loginForm">
+      <h2>Login</h2>
+      <form id="formLogin">
+        <div class="input-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required />
+        </div>
+        <div class="input-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required />
+          <span class="show-pass" onclick="togglePassword('loginPassword', this)">Show</span>
+        </div>
+        <button type="submit">Login</button>
+        <p class="toggle-text">
+          Don't have an account? <a onclick="showForm('registerForm')">Register here</a>
+        </p>
+      </form>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="form-box" id="registerForm">
+      <h2>Register</h2>
+      <form id="formRegister">
+        <div class="input-group">
+          <label for="regName">Full Name</label>
+          <input type="text" id="regName" placeholder="Enter your full name" required />
+        </div>
+        <div class="input-group">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" placeholder="Enter your email" required />
+        </div>
+        <div class="input-group">
+          <label for="regPassword">Password</label>
+          <input type="password" id="regPassword" placeholder="Create a password" required />
+          <span class="show-pass" onclick="togglePassword('regPassword', this)">Show</span>
+        </div>
+        <div class="input-group">
+          <label for="regConfirmPassword">Confirm Password</label>
+          <input type="password" id="regConfirmPassword" placeholder="Confirm your password" required />
+          <span class="show-pass" onclick="togglePassword('regConfirmPassword', this)">Show</span>
+        </div>
+        <button type="submit">Register</button>
+        <p class="toggle-text">
+          Already have an account? <a onclick="showForm('loginForm')">Login here</a>
+        </p>
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    function showForm(formId) {
+      document.querySelectorAll('.form-box').forEach(form => {
+        form.classList.remove('active');
+      });
+      document.getElementById(formId).classList.add('active');
+    }
+
+    function togglePassword(inputId, toggleEl) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        toggleEl.textContent = 'Hide';
+      } else {
+        input.type = 'password';
+        toggleEl.textContent = 'Show';
+      }
+    }
+
+    // Login form submission
+    document.getElementById('formLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      if (!email || !password) {
+        alert('Please fill all fields!');
+        return;
+      }
+      alert(`Logged in with Email: ${email}`);
+      this.reset();
+    });
+
+    // Registration form submission with validation
+    document.getElementById('formRegister').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const email = document.getElementById('regEmail').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+      if (!name || !email || !password || !confirmPassword) {
+        alert('Please fill all fields!');
+        return;
+      }
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+
+      alert(`Registered successfully!\nName: ${name}\nEmail: ${email}`);
+      this.reset();
+      showForm('loginForm');
+    });
+  </script>
+
+</body>
+</html>
